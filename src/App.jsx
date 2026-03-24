@@ -15,7 +15,7 @@ const css = `
   :root {
     --chrome:       #b8c4d0;
     --chrome-bright:#dce8f4;
-    --chrome-dim:   #5a6672;
+    --chrome-dim:   #8a9aaa;
     --bg:           #0b0c0e;
     --surface:      #131518;
     --surface2:     #1a1c20;
@@ -23,7 +23,7 @@ const css = `
     --border:       #2a2d32;
     --border-bright:#3a3f46;
     --text:         #c8d0da;
-    --muted:        #525a64;
+    --muted:        #8496a8;
     --red:          #d45a4a;
     --green:        #4ab87a;
     --yellow:       #c8a84a;
