@@ -58,7 +58,7 @@ const css = `
 
   /* HEADER */
   .header {
-    padding: 36px 20px 28px;
+    padding: calc(36px + env(safe-area-inset-top)) 20px 28px;
     text-align: center;
     position: relative;
     background: linear-gradient(180deg, #1a1c20 0%, transparent 100%);
