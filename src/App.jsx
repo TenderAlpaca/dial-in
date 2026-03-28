@@ -826,6 +826,194 @@ const css = `
     letter-spacing: 0.2em;
     text-transform: uppercase;
   }
+
+  /* COFFEE TABS */
+  .coffee-tabs-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 16px;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .coffee-tabs-bar::-webkit-scrollbar { display: none; }
+
+  .coffee-tab-wrapper {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .coffee-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 7px 14px;
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s;
+    flex-shrink: 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .coffee-tab-wrapper .coffee-tab.with-del {
+    border-radius: 20px 0 0 20px;
+  }
+  .coffee-tab-wrapper .coffee-tab-del {
+    border-radius: 0 20px 20px 0;
+    border-left: none;
+  }
+  .coffee-tab.active {
+    background: var(--surface3);
+    border-color: var(--border-bright);
+    color: var(--chrome-bright);
+    box-shadow: inset 0 1px 0 #ffffff10;
+  }
+
+  .coffee-tab-del {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.9rem;
+    padding: 7px 10px;
+    cursor: pointer;
+    line-height: 1;
+    opacity: 0.5;
+    -webkit-tap-highlight-color: transparent;
+    white-space: nowrap;
+    transition: all 0.15s;
+  }
+  .coffee-tab-del:active { opacity: 1; color: var(--red); }
+
+  .coffee-tab-add {
+    background: none;
+    border: 1px dashed var(--border-bright);
+    border-radius: 20px;
+    color: var(--chrome-dim);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem;
+    padding: 7px 12px;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+    -webkit-tap-highlight-color: transparent;
+    transition: all 0.15s;
+  }
+  .coffee-tab-add:active { border-color: var(--chrome); color: var(--chrome); }
+
+  .coffee-name-input {
+    background: var(--surface3);
+    border: 1px solid var(--border-bright);
+    border-radius: 20px;
+    color: var(--chrome-bright);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem;
+    padding: 7px 14px;
+    outline: none;
+    width: 140px;
+    flex-shrink: 0;
+    letter-spacing: 0.06em;
+  }
+
+  /* PRESETS */
+  .presets-wrap { display: flex; flex-direction: column; gap: 8px; }
+
+  .preset-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 14px;
+    box-shadow: inset 0 1px 0 #ffffff06;
+  }
+  .preset-info { flex: 1; min-width: 0; }
+  .preset-name {
+    font-size: 0.65rem;
+    color: var(--text);
+    margin-bottom: 3px;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .preset-detail { font-size: 0.52rem; color: var(--muted); letter-spacing: 0.06em; }
+
+  .preset-load-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border-bright);
+    border-radius: 16px;
+    color: var(--chrome);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.54rem;
+    padding: 5px 10px;
+    cursor: pointer;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    -webkit-tap-highlight-color: transparent;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .preset-load-btn:active { background: var(--surface3); }
+
+  .preset-del-btn {
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 0 2px;
+    -webkit-tap-highlight-color: transparent;
+    opacity: 0.5;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+  .preset-del-btn:active { opacity: 1; color: var(--red); }
+
+  .save-preset-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .preset-name-input {
+    flex: 1;
+    background: var(--surface3);
+    border: 1px solid var(--border-bright);
+    border-radius: 20px;
+    color: var(--chrome-bright);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem;
+    padding: 9px 14px;
+    outline: none;
+    letter-spacing: 0.06em;
+  }
+  .save-preset-btn {
+    width: 100%;
+    height: 40px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: all 0.15s;
+    box-shadow: inset 0 1px 0 #ffffff06;
+  }
+  .save-preset-btn:active { background: var(--surface2); }
 `;
 
 const RATIOS = [
@@ -984,26 +1172,113 @@ function save(key, val) {
   try { localStorage.setItem(key, JSON.stringify(val)); } catch {}
 }
 
-export default function App() {
-  const [dose, setDose]         = useState(() => load('dose', 18));
-  const [ratio, setRatio]       = useState(() => load('ratio', 2));
-  const [grind, setGrind]       = useState(() => load('grind', 12));
-  const [shotTime, setShotTime] = useState(() => load('shotTime', 27));
-  const [timerMode, setTimerMode]   = useState("timer");
-  const [manualTime, setManualTime] = useState(() => load('shotTime', 27));
-  const [timerState, setTimerState] = useState("idle");
-  const [elapsed, setElapsed]   = useState(0);
-  const [history, setHistory]   = useState(() => load('history', []));
-  const [hasLogged, setHasLogged] = useState(() => load('history', []).length > 0);
+function createCoffee(name, { dose = 18, ratio = 2, grind = 12, shotTime = 27, history = [] } = {}) {
+  return {
+    id: Date.now().toString(36) + Math.random().toString(36).slice(2),
+    name: name || 'Coffee',
+    dose,
+    ratio,
+    grind,
+    shotTime,
+    history,
+    presets: [],
+  };
+}
 
-  // Persist whenever values change
-  useEffect(() => { save('dose', dose); },     [dose]);
-  useEffect(() => { save('ratio', ratio); },   [ratio]);
-  useEffect(() => { save('grind', grind); },   [grind]);
-  useEffect(() => { save('shotTime', shotTime); }, [shotTime]);
-  useEffect(() => { save('history', history); },   [history]);
-  const intervalRef = useRef(null);
-  const startRef    = useRef(null);
+export default function App() {
+  // Combined coffees + activeCoffeeId state, with migration from old individual keys
+  const [coffeesData, setCoffeesData] = useState(() => {
+    const savedCoffees = load('coffees', null);
+    const savedActiveId = load('activeCoffeeId', null);
+    if (savedCoffees && Array.isArray(savedCoffees) && savedCoffees.length > 0) {
+      const activeId = (savedActiveId && savedCoffees.some(c => c.id === savedActiveId))
+        ? savedActiveId : savedCoffees[0].id;
+      return { list: savedCoffees, activeId };
+    }
+    // Migrate old individual localStorage keys
+    const coffee = createCoffee('My Coffee', {
+      dose:     load('dose',     18),
+      ratio:    load('ratio',    2),
+      grind:    load('grind',    12),
+      shotTime: load('shotTime', 27),
+      history:  load('history',  []),
+    });
+    return { list: [coffee], activeId: coffee.id };
+  });
+
+  const coffees        = coffeesData.list;
+  const activeCoffeeId = coffeesData.activeId;
+  const activeCoffee   = coffees.find(c => c.id === activeCoffeeId) || coffees[0];
+
+  // Per-coffee derived values (replacing individual state vars)
+  const dose     = activeCoffee.dose;
+  const ratio    = activeCoffee.ratio;
+  const grind    = activeCoffee.grind;
+  const shotTime = activeCoffee.shotTime;
+  const history  = activeCoffee.history;
+  const hasLogged = history.length > 0;
+
+  // Per-coffee setters (functional updaters so intervals always see latest state)
+  const setDose = (v) => setCoffeesData(s => ({
+    ...s, list: s.list.map(c => c.id === s.activeId
+      ? { ...c, dose: typeof v === 'function' ? v(c.dose) : v } : c),
+  }));
+  const setRatio = (v) => setCoffeesData(s => ({
+    ...s, list: s.list.map(c => c.id === s.activeId
+      ? { ...c, ratio: typeof v === 'function' ? v(c.ratio) : v } : c),
+  }));
+  const setGrind = (v) => setCoffeesData(s => ({
+    ...s, list: s.list.map(c => c.id === s.activeId
+      ? { ...c, grind: typeof v === 'function' ? v(c.grind) : v } : c),
+  }));
+  const setShotTime = (v) => setCoffeesData(s => ({
+    ...s, list: s.list.map(c => c.id === s.activeId
+      ? { ...c, shotTime: typeof v === 'function' ? v(c.shotTime) : v } : c),
+  }));
+  const setHistory = (v) => setCoffeesData(s => ({
+    ...s, list: s.list.map(c => c.id === s.activeId
+      ? { ...c, history: typeof v === 'function' ? v(c.history) : v } : c),
+  }));
+
+  const persistTimeoutRef = useRef(null);
+
+  // Persist coffees + activeCoffeeId (debounced to avoid frequent blocking writes)
+  useEffect(() => {
+    if (persistTimeoutRef.current) {
+      clearTimeout(persistTimeoutRef.current);
+    }
+
+    persistTimeoutRef.current = setTimeout(() => {
+      save('coffees', coffeesData.list);
+      save('activeCoffeeId', coffeesData.activeId);
+    }, 300);
+
+    return () => {
+      if (persistTimeoutRef.current) {
+        clearTimeout(persistTimeoutRef.current);
+      }
+    };
+  }, [coffeesData]);
+
+  const [timerMode, setTimerMode]   = useState("timer");
+  const [manualTime, setManualTime] = useState(shotTime);
+  const [timerState, setTimerState] = useState("idle");
+  const [elapsed, setElapsed]       = useState(0);
+
+  // Coffee management UI state
+  const [addingCoffee,  setAddingCoffee]  = useState(false);
+  const [newCoffeeName, setNewCoffeeName] = useState('');
+
+  // Preset UI state
+  const [savingPreset, setSavingPreset] = useState(false);
+  const [presetName,   setPresetName]   = useState('');
+
+  const intervalRef             = useRef(null);
+  const startRef                = useRef(null);
+  const newCoffeeInputRef       = useRef(null);
+  const coffeeInputCancelledRef = useRef(false);
+  const presetInputRef          = useRef(null);
+  const presetInputCancelledRef = useRef(false);
 
   const doseDown  = useHold(() => setDose(d => Math.max(14, +(d - 0.5).toFixed(1))));
   const doseUp    = useHold(() => setDose(d => Math.min(22, +(d + 0.5).toFixed(1))));
@@ -1016,7 +1291,6 @@ export default function App() {
   const zone      = getZone(grind);
   const flavor    = getFlavorProfile(shotTime, grind);
   const diag      = getDiag(shotTime, grind, dose, ratio);
-  const needlePct = (grind / 44) * 100;
 
   // Timer logic
   const startTimer = () => {
@@ -1040,7 +1314,6 @@ export default function App() {
       verdict: v, verdictColor: vc,
       id: Date.now()
     }, ...h].slice(0, 6));
-    setHasLogged(true);
   };
 
   const resetTimer = () => {
@@ -1058,10 +1331,89 @@ export default function App() {
       verdict: v, verdictColor: vc,
       id: Date.now()
     }, ...h].slice(0, 6));
-    setHasLogged(true);
   };
 
   useEffect(() => () => clearInterval(intervalRef.current), []);
+
+  // Coffee management
+  const resetTimerState = (newShotTime = 27) => {
+    clearInterval(intervalRef.current);
+    setElapsed(0);
+    setTimerState("idle");
+    setTimerMode("timer");
+    setManualTime(newShotTime);
+  };
+
+  const switchCoffee = (id) => {
+    setCoffeesData(s => ({ ...s, activeId: id }));
+    const target = coffees.find(c => c.id === id);
+    resetTimerState(target ? target.shotTime : 27);
+  };
+
+  const addCoffee = () => {
+    coffeeInputCancelledRef.current = false;
+    setAddingCoffee(true);
+    setNewCoffeeName('');
+  };
+
+  const confirmAddCoffee = () => {
+    const name = newCoffeeName.trim() || 'Coffee';
+    const coffee = createCoffee(name);
+    setCoffeesData(s => ({ list: [...s.list, coffee], activeId: coffee.id }));
+    setAddingCoffee(false);
+    setNewCoffeeName('');
+    resetTimerState(coffee.shotTime);
+  };
+
+  const cancelAddCoffee = () => {
+    coffeeInputCancelledRef.current = true;
+    setAddingCoffee(false);
+    setNewCoffeeName('');
+  };
+
+  const deleteCoffee = (id) => {
+    const wasActive = activeCoffeeId === id;
+    setCoffeesData(s => {
+      if (s.list.length <= 1) return s;
+      const remaining = s.list.filter(c => c.id !== id);
+      const newActiveId = s.activeId === id ? remaining[0].id : s.activeId;
+      return { list: remaining, activeId: newActiveId };
+    });
+    if (wasActive) {
+      const remaining = coffees.filter(c => c.id !== id);
+      resetTimerState(remaining.length > 0 ? remaining[0].shotTime : 27);
+    }
+  };
+
+  // Preset management
+  const savePreset = () => {
+    if (!presetName.trim()) return;
+    const preset = {
+      id: Date.now().toString(36) + Math.random().toString(36).slice(2),
+      name: presetName.trim(),
+      dose, ratio, grind,
+    };
+    setCoffeesData(s => ({
+      ...s, list: s.list.map(c => c.id === s.activeId
+        ? { ...c, presets: [...(c.presets || []), preset] } : c),
+    }));
+    setSavingPreset(false);
+    setPresetName('');
+  };
+
+  const loadPreset = (preset) => {
+    setCoffeesData(s => ({
+      ...s, list: s.list.map(c => c.id === s.activeId
+        ? { ...c, dose: preset.dose, ratio: preset.ratio, grind: preset.grind } : c),
+    }));
+  };
+
+  const deletePreset = (presetId) => {
+    setCoffeesData(s => ({
+      ...s, list: s.list.map(c => c.id === s.activeId
+        ? { ...c, presets: (c.presets || []).filter(p => p.id !== presetId) } : c),
+    }));
+  };
 
   const displayTime = timerMode === "manual" ? manualTime
     : (timerState === "running" || timerState === "done") ? elapsed : shotTime;
@@ -1097,6 +1449,49 @@ export default function App() {
         {/* HEADER */}
         <div className="header">
           <h1 className="header-title">Dial-In</h1>
+        </div>
+
+        {/* COFFEE TABS */}
+        <div className="coffee-tabs-bar">
+          {coffees.map(c => (
+            <span key={c.id} className="coffee-tab-wrapper">
+              <button
+                className={`coffee-tab${c.id === activeCoffeeId ? ' active' : ''}${coffees.length > 1 ? ' with-del' : ''}`}
+                onClick={() => c.id !== activeCoffeeId && switchCoffee(c.id)}
+              >
+                {c.name}
+              </button>
+              {coffees.length > 1 && (
+                <button
+                  type="button"
+                  className="coffee-tab-del"
+                  aria-label={`Delete ${c.name}`}
+                  onClick={() => deleteCoffee(c.id)}
+                >×</button>
+              )}
+            </span>
+          ))}
+          {addingCoffee ? (
+            <input
+              ref={newCoffeeInputRef}
+              className="coffee-name-input"
+              placeholder="Coffee name…"
+              value={newCoffeeName}
+              autoFocus
+              onChange={e => setNewCoffeeName(e.target.value)}
+              onKeyDown={e => {
+                if (e.key === 'Enter') { e.preventDefault(); newCoffeeInputRef.current?.blur(); }
+                if (e.key === 'Escape') { e.preventDefault(); cancelAddCoffee(); }
+              }}
+              onBlur={() => {
+                if (coffeeInputCancelledRef.current) { coffeeInputCancelledRef.current = false; return; }
+                if (newCoffeeName.trim()) confirmAddCoffee();
+                else cancelAddCoffee();
+              }}
+            />
+          ) : (
+            <button className="coffee-tab-add" onClick={addCoffee}>+ Add</button>
+          )}
         </div>
 
         {/* SHOT TIMER */}
@@ -1323,13 +1718,63 @@ export default function App() {
             {history.length > 0 && (
               <button className="history-clear" onClick={() => {
                 setHistory([]);
-                setHasLogged(false);
                 setShotTime(27);
                 setManualTime(27);
                 setElapsed(0);
                 setTimerState("idle");
                 clearInterval(intervalRef.current);
               }}>Clear log</button>
+            )}
+          </div>
+        </div>
+
+        {/* PRESETS */}
+        <div className="section">
+          <p className="section-label">Presets</p>
+          <div className="presets-wrap">
+            {(activeCoffee.presets || []).length === 0 && !savingPreset && (
+              <div className="history-empty">No presets saved — save current settings below</div>
+            )}
+            {(activeCoffee.presets || []).map(p => (
+              <div key={p.id} className="preset-item">
+                <div className="preset-info">
+                  <div className="preset-name">{p.name}</div>
+                  <div className="preset-detail">{p.dose}g · 1:{p.ratio} · grind {fmtGrind(p.grind)}</div>
+                </div>
+                <button className="preset-load-btn" onClick={() => loadPreset(p)}>Load</button>
+                <button className="preset-del-btn" onClick={() => deletePreset(p.id)}>×</button>
+              </div>
+            ))}
+            {savingPreset ? (
+              <div className="save-preset-row">
+                <input
+                  ref={presetInputRef}
+                  className="preset-name-input"
+                  placeholder="Preset name…"
+                  value={presetName}
+                  autoFocus
+                  onChange={e => setPresetName(e.target.value)}
+                  onKeyDown={e => {
+                    if (e.key === 'Enter') { e.preventDefault(); presetInputRef.current?.blur(); }
+                    if (e.key === 'Escape') {
+                      e.preventDefault();
+                      presetInputCancelledRef.current = true;
+                      setSavingPreset(false);
+                      setPresetName('');
+                    }
+                  }}
+                  onBlur={() => {
+                    if (presetInputCancelledRef.current) { presetInputCancelledRef.current = false; return; }
+                    if (presetName.trim()) savePreset();
+                    else { setSavingPreset(false); setPresetName(''); }
+                  }}
+                />
+              </div>
+            ) : (
+              <button className="save-preset-btn"
+                onClick={() => { presetInputCancelledRef.current = false; setSavingPreset(true); setPresetName(''); }}>
+                + Save Current Settings as Preset
+              </button>
             )}
           </div>
         </div>
