@@ -841,6 +841,12 @@ const css = `
   }
   .coffee-tabs-bar::-webkit-scrollbar { display: none; }
 
+  .coffee-tab-wrapper {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
   .coffee-tab {
     display: inline-flex;
     align-items: center;
@@ -859,6 +865,13 @@ const css = `
     flex-shrink: 0;
     -webkit-tap-highlight-color: transparent;
   }
+  .coffee-tab-wrapper .coffee-tab.with-del {
+    border-radius: 20px 0 0 20px;
+  }
+  .coffee-tab-wrapper .coffee-tab-del {
+    border-radius: 0 20px 20px 0;
+    border-left: none;
+  }
   .coffee-tab.active {
     background: var(--surface3);
     border-color: var(--border-bright);
@@ -867,15 +880,17 @@ const css = `
   }
 
   .coffee-tab-del {
-    background: none;
-    border: none;
-    color: inherit;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--muted);
     font-size: 0.9rem;
-    padding: 0;
+    padding: 7px 10px;
     cursor: pointer;
     line-height: 1;
     opacity: 0.5;
     -webkit-tap-highlight-color: transparent;
+    white-space: nowrap;
+    transition: all 0.15s;
   }
   .coffee-tab-del:active { opacity: 1; color: var(--red); }
 
@@ -1225,10 +1240,24 @@ export default function App() {
       ? { ...c, history: typeof v === 'function' ? v(c.history) : v } : c),
   }));
 
-  // Persist coffees + activeCoffeeId
+  const persistTimeoutRef = useRef(null);
+
+  // Persist coffees + activeCoffeeId (debounced to avoid frequent blocking writes)
   useEffect(() => {
-    save('coffees', coffeesData.list);
-    save('activeCoffeeId', coffeesData.activeId);
+    if (persistTimeoutRef.current) {
+      clearTimeout(persistTimeoutRef.current);
+    }
+
+    persistTimeoutRef.current = setTimeout(() => {
+      save('coffees', coffeesData.list);
+      save('activeCoffeeId', coffeesData.activeId);
+    }, 300);
+
+    return () => {
+      if (persistTimeoutRef.current) {
+        clearTimeout(persistTimeoutRef.current);
+      }
+    };
   }, [coffeesData]);
 
   const [timerMode, setTimerMode]   = useState("timer");
@@ -1244,8 +1273,12 @@ export default function App() {
   const [savingPreset, setSavingPreset] = useState(false);
   const [presetName,   setPresetName]   = useState('');
 
-  const intervalRef = useRef(null);
-  const startRef    = useRef(null);
+  const intervalRef             = useRef(null);
+  const startRef                = useRef(null);
+  const newCoffeeInputRef       = useRef(null);
+  const coffeeInputCancelledRef = useRef(false);
+  const presetInputRef          = useRef(null);
+  const presetInputCancelledRef = useRef(false);
 
   const doseDown  = useHold(() => setDose(d => Math.max(14, +(d - 0.5).toFixed(1))));
   const doseUp    = useHold(() => setDose(d => Math.min(22, +(d + 0.5).toFixed(1))));
@@ -1318,6 +1351,7 @@ export default function App() {
   };
 
   const addCoffee = () => {
+    coffeeInputCancelledRef.current = false;
     setAddingCoffee(true);
     setNewCoffeeName('');
   };
@@ -1332,6 +1366,7 @@ export default function App() {
   };
 
   const cancelAddCoffee = () => {
+    coffeeInputCancelledRef.current = true;
     setAddingCoffee(false);
     setNewCoffeeName('');
   };
@@ -1419,33 +1454,37 @@ export default function App() {
         {/* COFFEE TABS */}
         <div className="coffee-tabs-bar">
           {coffees.map(c => (
-            <button
-              key={c.id}
-              className={`coffee-tab${c.id === activeCoffeeId ? ' active' : ''}`}
-              onClick={() => c.id !== activeCoffeeId && switchCoffee(c.id)}
-            >
-              {c.name}
+            <span key={c.id} className="coffee-tab-wrapper">
+              <button
+                className={`coffee-tab${c.id === activeCoffeeId ? ' active' : ''}${coffees.length > 1 ? ' with-del' : ''}`}
+                onClick={() => c.id !== activeCoffeeId && switchCoffee(c.id)}
+              >
+                {c.name}
+              </button>
               {coffees.length > 1 && (
-                <span
+                <button
+                  type="button"
                   className="coffee-tab-del"
-                  role="button"
-                  onClick={e => { e.stopPropagation(); deleteCoffee(c.id); }}
-                >×</span>
+                  aria-label={`Delete ${c.name}`}
+                  onClick={() => deleteCoffee(c.id)}
+                >×</button>
               )}
-            </button>
+            </span>
           ))}
           {addingCoffee ? (
             <input
+              ref={newCoffeeInputRef}
               className="coffee-name-input"
               placeholder="Coffee name…"
               value={newCoffeeName}
               autoFocus
               onChange={e => setNewCoffeeName(e.target.value)}
               onKeyDown={e => {
-                if (e.key === 'Enter') { e.preventDefault(); confirmAddCoffee(); }
+                if (e.key === 'Enter') { e.preventDefault(); newCoffeeInputRef.current?.blur(); }
                 if (e.key === 'Escape') { e.preventDefault(); cancelAddCoffee(); }
               }}
               onBlur={() => {
+                if (coffeeInputCancelledRef.current) { coffeeInputCancelledRef.current = false; return; }
                 if (newCoffeeName.trim()) confirmAddCoffee();
                 else cancelAddCoffee();
               }}
@@ -1709,16 +1748,23 @@ export default function App() {
             {savingPreset ? (
               <div className="save-preset-row">
                 <input
+                  ref={presetInputRef}
                   className="preset-name-input"
                   placeholder="Preset name…"
                   value={presetName}
                   autoFocus
                   onChange={e => setPresetName(e.target.value)}
                   onKeyDown={e => {
-                    if (e.key === 'Enter') { e.preventDefault(); savePreset(); }
-                    if (e.key === 'Escape') { e.preventDefault(); setSavingPreset(false); setPresetName(''); }
+                    if (e.key === 'Enter') { e.preventDefault(); presetInputRef.current?.blur(); }
+                    if (e.key === 'Escape') {
+                      e.preventDefault();
+                      presetInputCancelledRef.current = true;
+                      setSavingPreset(false);
+                      setPresetName('');
+                    }
                   }}
                   onBlur={() => {
+                    if (presetInputCancelledRef.current) { presetInputCancelledRef.current = false; return; }
                     if (presetName.trim()) savePreset();
                     else { setSavingPreset(false); setPresetName(''); }
                   }}
@@ -1726,7 +1772,7 @@ export default function App() {
               </div>
             ) : (
               <button className="save-preset-btn"
-                onClick={() => { setSavingPreset(true); setPresetName(''); }}>
+                onClick={() => { presetInputCancelledRef.current = false; setSavingPreset(true); setPresetName(''); }}>
                 + Save Current Settings as Preset
               </button>
             )}
